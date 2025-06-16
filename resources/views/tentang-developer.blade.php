@@ -3,10 +3,10 @@
 @section('title', 'Tentang Developer - Alfalimbany Tech')
 
 @section('content')
-    <div class="relative overflow-hidden">
+    <div class="relative overflow-hidden px-2 sm:px-4 md:px-8 pt-4 pb-6">
         <!-- Hero Section -->
         <div
-            class="w-full bg-gradient-to-tr from-blue-400 via-green-200 to-blue-300 py-16 px-4 flex flex-col items-center justify-center shadow-lg relative">
+            class="w-full bg-gradient-to-tr from-blue-400 via-green-200 to-blue-300 py-12 px-2 sm:px-4 flex flex-col items-center justify-center shadow-lg relative glass-card border-2 border-blue-100 bg-white/60 backdrop-blur-md">
             <div class="absolute top-0 left-0 w-40 h-40 bg-blue-200 opacity-30 rounded-full blur-2xl animate-pulse"></div>
             <div class="absolute bottom-0 right-0 w-32 h-32 bg-green-200 opacity-30 rounded-full blur-2xl animate-pulse">
             </div>
@@ -16,7 +16,8 @@
                         alt="Alfalimbany Tech" class="w-24 h-24 rounded-full border-4 border-blue-400 shadow-lg">
                 </div>
                 <h1 class="text-4xl font-extrabold text-blue-700 drop-shadow mb-2 animate-fade-in">Alfalimbany Tech</h1>
-                <p class="text-lg text-blue-900 max-w-3xl animate-fade-in-slow leading-relaxed text-justify mx-auto">
+                <p
+                    class="text-lg text-blue-900 max-w-3xl animate-fade-in-slow leading-relaxed text-justify mx-auto mb-6 sm:mb-8">
                     Kami berpengalaman sebagai ICT Educator, Associate Data Scientist, serta Freelance Software Engineer
                     sejak 2020. Keahlian kami didukung oleh sertifikasi Associate Data Scientist dan Mobile App Development
                     (React Native), serta latar belakang pendidikan Magister dan Sarjana Informatika.
@@ -29,9 +30,9 @@
             </div>
         </div>
         <!-- Layanan Section -->
-        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mt-[-3rem] z-20 relative px-4">
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mt-[-3rem] z-20 relative px-2 sm:px-4">
             <div
-                class="bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center hover:scale-105 transition-transform duration-300 group border border-blue-100">
+                class="glass-card bg-white/70 border-2 border-blue-100 rounded-2xl shadow-xl p-8 flex flex-col items-center hover:scale-105 transition-transform duration-300 group backdrop-blur-md">
                 <div
                     class="bg-gradient-to-tr from-blue-400 to-green-300 p-3 rounded-full mb-3 shadow-lg group-hover:rotate-6 transition-transform">
                     <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2"
@@ -54,7 +55,7 @@
                 </ul>
             </div>
             <div
-                class="bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center hover:scale-105 transition-transform duration-300 group border border-green-100">
+                class="glass-card bg-white/70 border-2 border-green-100 rounded-2xl shadow-xl p-8 flex flex-col items-center hover:scale-105 transition-transform duration-300 group backdrop-blur-md">
                 <div
                     class="bg-gradient-to-tr from-green-300 to-blue-300 p-3 rounded-full mb-3 shadow-lg group-hover:-rotate-6 transition-transform">
                     <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2"
@@ -89,16 +90,23 @@
                             <path
                                 d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5zm4.25 2.25a5.25 5.25 0 1 1-5.25 5.25a5.25 5.25 0 0 1 5.25-5.25zm0 1.5a3.75 3.75 0 1 0 3.75 3.75a3.75 3.75 0 0 0-3.75-3.75zm5.25 1.25a1 1 0 1 1-2 0a1 1 0 0 1 2 0z" />
                         </svg>Instagram: @RF7404</a>
+                    <a href="https://github.com/Bang-Raf" target="_blank"
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-900 text-white hover:bg-gray-800 transition transform hover:scale-105 hover:shadow-lg duration-200">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.339-2.221-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.987 1.029-2.686-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.748-1.025 2.748-1.025.546 1.378.202 2.397.1 2.65.64.699 1.028 1.593 1.028 2.686 0 3.847-2.337 4.695-4.566 4.944.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.749 0 .267.18.577.688.479C19.138 20.2 22 16.447 22 12.021 22 6.484 17.523 2 12 2z" />
+                        </svg>GitHub: Alfalimbany</a>
                 </div>
             </div>
         </div>
-        <div class="text-center text-base text-blue-700 border-t pt-6 mt-12 tracking-wide animate-fade-in-slow bg-blue-50">
-            Terima kasih telah mempercayakan pengembangan sistem Anda kepada <span
-                class="font-semibold text-green-700">Alfalimbany Tech</span>. <span class="ml-1">🚀</span>
-        </div>
-        <div class="flex justify-center mt-8 mb-6">
+        <div
+            class="glass-card bg-white/60 backdrop-blur-md text-center text-base text-blue-700 border-t pt-6 mt-12 tracking-wide animate-fade-in-slow flex flex-col items-center gap-4 pb-6 px-2 sm:px-4">
+            <div>
+                Terima kasih telah mempercayakan pengembangan sistem Anda kepada <span
+                    class="font-semibold text-green-700">Alfalimbany Tech</span>. <span class="ml-1">🚀</span>
+            </div>
             <a href="/"
-                class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow transition text-base">
+                class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow transition text-base mt-2">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                 </svg>

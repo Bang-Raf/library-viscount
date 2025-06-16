@@ -144,6 +144,15 @@
                             Manajemen Tema
                         </a>
 
+                        <a href="{{ route('dashboard.jam-operasional') }}"
+                            class="flex items-center px-4 py-2 rounded-lg transition {{ $activeTheme === 'glass' && request()->routeIs('dashboard.jam-operasional') ? 'sidebar-active' : ($activeTheme !== 'glass' && request()->routeIs('dashboard.jam-operasional') ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100') }}">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Jam Operasional
+                        </a>
+
                         @if (auth()->user() && auth()->user()->isAdmin())
                             <a href="{{ route('dashboard.users') }}"
                                 class="flex items-center px-4 py-2 rounded-lg transition {{ $activeTheme === 'glass' && request()->routeIs('dashboard.users') ? 'sidebar-active' : ($activeTheme !== 'glass' && request()->routeIs('dashboard.users') ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100') }}">

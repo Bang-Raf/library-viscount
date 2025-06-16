@@ -6,6 +6,7 @@ use App\Models\Pengunjung;
 use App\Models\RiwayatKunjungan;
 use App\Models\Pengumuman;
 use App\Models\Peraturan;
+use App\Models\Setting;
 use Livewire\Component;
 use Carbon\Carbon;
 
@@ -133,6 +134,55 @@ class KunjunganKios extends Component
                      ->get();
     }
 
+    public function getJamOperasionalFormatted()
+    {
+        $jam = Setting::getJamOperasional();
+        $hariList = [
+            'senin' => 'Senin',
+            'selasa' => 'Selasa',
+            'rabu' => 'Rabu',
+            'kamis' => 'Kamis',
+            'jumat' => 'Jumat',
+            'sabtu' => 'Sabtu',
+            'minggu' => 'Minggu',
+        ];
+        $grouped = [];
+        foreach ($jam as $hari => $waktu) {
+            $key = ($waktu['buka'] ?? '-') . '-' . ($waktu['tutup'] ?? '-');
+            $grouped[$key][] = $hariList[$hari];
+        }
+        $result = [];
+        foreach ($grouped as $waktu => $days) {
+            [$buka, $tutup] = explode('-', $waktu);
+            $labelHari = $this->rangeHari($days);
+            if (empty($buka) || empty($tutup) || $buka === '-' || $tutup === '-') {
+                $result[] = "$labelHari: Libur";
+            } else {
+                $result[] = "$labelHari: $buka-$tutup";
+            }
+        }
+        return $result;
+    }
+
+    private function rangeHari($days)
+    {
+        $urutan = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
+        $idx = array_flip($urutan);
+        usort($days, fn($a, $b) => $idx[$a] <=> $idx[$b]);
+        $ranges = [];
+        $start = $end = $days[0];
+        for ($i=1; $i<count($days); $i++) {
+            if ($idx[$days[$i]] == $idx[$end]+1) {
+                $end = $days[$i];
+            } else {
+                $ranges[] = $start == $end ? $start : "$start-$end";
+                $start = $end = $days[$i];
+            }
+        }
+        $ranges[] = $start == $end ? $start : "$start-$end";
+        return implode(', ', $ranges);
+    }
+
     public function render()
     {
         $pengumuman = Pengumuman::aktif()->terbaru()->limit(3)->get();
@@ -145,6 +195,7 @@ class KunjunganKios extends Component
             'leaderboard' => $leaderboard,
             'totalHariIni' => $totalHariIni,
             'peraturan' => $peraturan,
+            'jamOperasional' => $this->getJamOperasionalFormatted(),
         ]);
     }
 }

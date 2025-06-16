@@ -6,4 +6,5 @@
 
 @section('content')
     @livewire('manajemen-tema')
+    @livewire('manajemen-jam-operasional')
 @endsection

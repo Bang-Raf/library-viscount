@@ -62,7 +62,12 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
     Route::get('/theme', function () {
         return view('dashboard.theme');
     })->name('dashboard.theme');
+
+    Route::get('/jam-operasional', function () {
+        return view('dashboard.jam-operasional');
+    })->name('dashboard.jam-operasional');
 });
 
 // Auth routes
 require __DIR__.'/auth.php';
+

@@ -206,13 +206,33 @@
                 <!-- Widget Jam -->
                 <x-rtc-clock style="{{ $activeTheme ? $activeTheme : 'minimal' }}" />
 
-                <!-- Statistik Hari Ini -->
-                <div
-                    class="{{ $activeTheme === 'glass' ? 'calendar-glass-card' : 'bg-white border border-gray-200 shadow-lg rounded-xl' }} p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Statistik Hari Ini</h3>
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-blue-600">{{ $totalHariIni }}</div>
-                        <div class="text-sm text-gray-600">Total Kunjungan</div>
+                <!-- Jam Operasional & Statistik Hari Ini -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Jam Operasional -->
+                    <div
+                        class="{{ $activeTheme === 'glass' ? 'calendar-glass-card' : 'bg-white border border-gray-200 shadow-lg rounded-xl' }} p-6">
+                        <div class="flex items-center gap-2 mb-2">
+                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <h3 class="text-lg font-semibold text-gray-800">Jam Operasional</h3>
+                        </div>
+                        <ul class="text-sm text-blue-800 space-y-1">
+                            @foreach ($jamOperasional as $row)
+                                <li>{{ $row }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <!-- Statistik Hari Ini -->
+                    <div
+                        class="{{ $activeTheme === 'glass' ? 'calendar-glass-card' : 'bg-white border border-gray-200 shadow-lg rounded-xl' }} p-6 flex flex-col justify-center items-center h-full">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">Statistik Hari Ini</h3>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-blue-600">{{ $totalHariIni }}</div>
+                            <div class="text-sm text-gray-600">Total Pengunjung</div>
+                        </div>
                     </div>
                 </div>
 
@@ -269,16 +289,6 @@
                 <div
                     class="{{ $activeTheme === 'glass' ? 'calendar-glass-card' : 'bg-white border border-gray-200 shadow-lg rounded-xl' }} p-6">
                     <h3 class="text-lg font-semibold text-gray-800 mb-4">Informasi Perpustakaan</h3>
-
-                    <!-- Jam Operasional -->
-                    <div class="mb-4">
-                        <h4 class="text-sm font-semibold text-gray-700 mb-2">Jam Operasional</h4>
-                        <div class="text-sm text-gray-600 space-y-1">
-                            <div>Senin - Kamis: 07:00 - 16:00</div>
-                            <div>Jumat: 07:00 - 11:00</div>
-                            <div>Sabtu: 07:00 - 14:00</div>
-                        </div>
-                    </div>
 
                     <!-- Pengumuman -->
                     @if ($pengumuman->count() > 0)

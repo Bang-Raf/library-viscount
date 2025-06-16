@@ -170,14 +170,57 @@
         <div class="px-6 py-4 border-t border-gray-200">
             {{ $pengumuman->links() }}
         </div>
+        @push('styles')
+            <style>
+                .pagination {
+                    @apply flex items-center justify-center space-x-1 mt-2;
+                }
+
+                .pagination .page-link {
+                    @apply px-3 py-1 rounded-lg border text-sm font-semibold transition duration-150;
+                }
+
+                .pagination .page-item.active .page-link {
+                    @apply bg-blue-600 text-white border-blue-600;
+                }
+
+                .pagination .page-link:hover {
+                    @apply bg-blue-50 text-blue-700 border-blue-400;
+                }
+
+                .pagination .page-item.disabled .page-link {
+                    @apply bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed;
+                }
+
+                /* Kustom warna tombol prev/next */
+                .pagination .page-item:first-child .page-link {
+                    @apply bg-green-600 text-white border-green-600;
+                }
+
+                .pagination .page-item:last-child .page-link {
+                    @apply bg-orange-500 text-white border-orange-500;
+                }
+            </style>
+        @endpush
     </div>
 
     <!-- Modal Form -->
     @if ($showForm)
         <div
-            class="fixed inset-0 {{ $activeTheme === 'glass' ? 'bg-white/40 backdrop-blur-sm' : 'bg-gray-600 bg-opacity-50' }} overflow-y-auto h-full w-full z-50">
+            class="fixed inset-0
+                {{ $activeTheme === 'glass'
+                    ? 'bg-white/40 backdrop-blur-sm'
+                    : ($activeTheme === 'minimal'
+                        ? 'bg-white/40 backdrop-blur-sm'
+                        : 'bg-gray-600 bg-opacity-50') }}
+            overflow-y-auto h-full w-full z-50">
             <div
-                class="relative top-20 mx-auto p-5 border w-full max-w-lg shadow-lg rounded-md {{ $activeTheme === 'glass' ? 'glass-card' : 'bg-white' }}">
+                class="relative top-20 mx-auto p-5 w-full max-w-lg shadow-lg rounded-md
+                    {{ $activeTheme === 'glass'
+                        ? 'glass-card'
+                        : ($activeTheme === 'minimal'
+                            ? 'bg-white/90 border border-gray-200/60'
+                            : 'bg-white') }}">
                 <div class="mt-3">
                     <h3
                         class="text-lg font-bold mb-4 {{ $activeTheme === 'glass' ? 'text-blue-900' : 'text-gray-900' }}">

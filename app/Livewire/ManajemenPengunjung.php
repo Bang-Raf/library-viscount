@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class ManajemenPengunjung extends Component
 {
@@ -187,15 +188,30 @@ class ManajemenPengunjung extends Component
         $path = $this->file->store('temp');
         $rows = Excel::toCollection(null, storage_path('app/' . $path))->first();
 
+        if (!$rows || $rows->count() === 0) {
+            Storage::delete($path);
+            session()->flash('message', 'File tidak dapat dibaca atau kosong. Pastikan format dan isi file sudah benar.');
+            $this->resetImportForm();
+            return;
+        }
+
         foreach ($rows as $index => $row) {
             if ($index === 0 && (strtolower($row[0]) === 'id_pengunjung' || strtolower($row['id_pengunjung'] ?? '') === 'id_pengunjung')) {
                 continue;
             }
+            // Skip baris kosong
+            $id_pengunjung = $row['id_pengunjung'] ?? $row[0] ?? null;
+            $nama_lengkap = $row['nama_lengkap'] ?? $row[1] ?? null;
+            $kelas_jabatan = $row['kelas_jabatan'] ?? $row[2] ?? null;
+            $status = $row['status'] ?? $row[3] ?? 'Aktif';
+            if (empty($id_pengunjung) && empty($nama_lengkap) && empty($kelas_jabatan) && empty($status)) {
+                continue;
+            }
             $data = [
-                'id_pengunjung' => $row['id_pengunjung'] ?? $row[0] ?? null,
-                'nama_lengkap' => $row['nama_lengkap'] ?? $row[1] ?? null,
-                'kelas_jabatan' => $row['kelas_jabatan'] ?? $row[2] ?? null,
-                'status' => $row['status'] ?? $row[3] ?? 'Aktif',
+                'id_pengunjung' => $id_pengunjung,
+                'nama_lengkap' => $nama_lengkap,
+                'kelas_jabatan' => $kelas_jabatan,
+                'status' => $status,
             ];
             $validator = Validator::make($data, [
                 'id_pengunjung' => 'required|string|unique:pengunjung,id_pengunjung',
@@ -214,6 +230,7 @@ class ManajemenPengunjung extends Component
             Pengunjung::create($data);
             $this->importedCount++;
         }
+        Storage::delete($path);
         $this->showImportBatchModal = false;
         session()->flash('message', "Import selesai. Berhasil: {$this->importedCount}, Gagal: " . count($this->failedRows));
         $this->resetImportForm();

@@ -179,7 +179,7 @@
                             <div class="text-right">
                                 {{-- jika berada di halaman theme, maka tidak perlu menampilkan jam --}}
                                 @if (!request()->routeIs('dashboard.theme'))
-                                    <x-rtc-clock :show-seconds="true" class="text-sm text-gray-600" />
+                                    <x-rtc-clock :style="$activeTheme" :show-seconds="true" class="text-sm text-gray-600" />
                                 @endif
                             </div>
                         </div>

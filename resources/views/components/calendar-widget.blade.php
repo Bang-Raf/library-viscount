@@ -159,10 +159,10 @@
         <div class="flex items-center justify-between text-xs calendar-footer-text">
             <div class="flex items-center space-x-4">
                 @foreach ($activeFooter as $info)
-                    <div class="flex items-center">
+                <div class="flex items-center">
                         <div class="w-3 h-3 {{ $info['dot'] }} rounded-full mr-2"></div>
                         <span class="{{ $info['labelClass'] }}">{{ $info['label'] }}</span>
-                    </div>
+                </div>
                 @endforeach
             </div>
             <div class="calendar-footer-days">{{ $daysInMonth }} hari</div>

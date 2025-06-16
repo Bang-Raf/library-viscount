@@ -172,7 +172,7 @@
                                     </button>
 
                                     <button wire:click="resetPassword({{ $user->id }})"
-                                        onclick="return confirm('Reset password user {{ $user->name }}?')"
+                                        onclick="return confirm('Reset password user {{ $user->name }} ke default (password123)?')"
                                         class="text-yellow-600 hover:text-yellow-900" title="Reset Password">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">

@@ -7,7 +7,8 @@
 ])
 
 @if ($style === 'glass')
-    <div class="rtc-clock-widget-glass flex items-center justify-center select-none" @if ($wireIgnore) wire:ignore @endif>
+    <div class="rtc-clock-widget-glass flex items-center justify-center select-none"
+        @if ($wireIgnore) wire:ignore @endif>
         <div
             class="flex items-center gap-4 px-6 py-4 rounded-2xl shadow-lg bg-white/40 backdrop-blur-md border border-blue-100 relative overflow-hidden rtc-glass-card">
             <div class="flex-shrink-0">
@@ -21,45 +22,56 @@
                 <span id="{{ $id }}-time"
                     class="font-mono text-2xl md:text-3xl font-bold text-blue-800 rtc-clock-active-glass">00:00:00</span>
                 <span id="{{ $id }}-date"
-                    class="text-xs md:text-sm text-blue-700 mt-1 rtc-date-active-glass">Memuat tanggal...</span>
+                    class="text-xs md:text-sm text-blue-700 mt-1 rtc-date-active-glass animate-pulse">Memuat
+                    tanggal...</span>
             </div>
         </div>
     </div>
 @elseif($style === 'minimal')
-    <div class="rtc-clock-widget-minimal flex items-center justify-center select-none" @if ($wireIgnore) wire:ignore @endif>
+    <div class="rtc-clock-widget-minimal flex flex-col items-center justify-center select-none border border-gray-200 rounded-xl bg-white/80 px-5 py-3"
+        @if ($wireIgnore) wire:ignore @endif>
         <span id="{{ $id }}-time"
-            class="font-mono text-3xl md:text-4xl font-bold text-blue-700 bg-transparent px-2">00:00:00</span>
-        <span id="{{ $id }}-date" class="text-xs md:text-sm text-blue-500 ml-3">Memuat tanggal...</span>
+            class="font-mono text-3xl md:text-4xl font-bold text-gray-800 tracking-wide bg-transparent px-2">00:00:00</span>
+        <span id="{{ $id }}-date"
+            class="text-xs md:text-sm text-blue-600 mt-2 font-medium tracking-wide">Memuat tanggal...</span>
     </div>
 @elseif($style === 'digital')
-    <div class="rtc-clock-widget-digital flex flex-col items-center justify-center select-none" @if ($wireIgnore) wire:ignore @endif>
+    <div class="rtc-clock-widget-digital flex flex-col items-center justify-center select-none"
+        @if ($wireIgnore) wire:ignore @endif>
         <div
-            class="flex items-center gap-3 px-6 py-4 rounded-2xl shadow-lg bg-gradient-to-br from-blue-200 via-cyan-100 to-white border border-cyan-200 rtc-digital-card">
+            class="flex flex-row items-center gap-3 px-6 py-4 rounded-2xl shadow-lg bg-gradient-to-br from-blue-200 via-cyan-100 to-white border border-cyan-200 rtc-digital-card">
             <svg class="w-8 h-8 text-cyan-500 drop-shadow" fill="none" stroke="currentColor" stroke-width="2"
                 viewBox="0 0 24 24">
                 <rect x="2" y="2" width="20" height="20" rx="6" fill="#67e8f9" fill-opacity="0.12" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2" />
             </svg>
-            <span id="{{ $id }}-time"
-                class="font-mono text-3xl md:text-4xl font-extrabold text-cyan-700 rtc-clock-active-digital glow-digital">00:00:00</span>
+            <div class="flex flex-col items-start justify-center ml-2">
+                <span id="{{ $id }}-time"
+                    class="font-mono text-3xl md:text-4xl font-extrabold text-cyan-700 rtc-clock-active-digital glow-digital">00:00:00</span>
+                <span id="{{ $id }}-date"
+                    class="text-xs md:text-sm text-slate-800 mt-2 rtc-date-active-digital"
+                    style="text-shadow:0 1px 4px #fff,0 0.5px 0 #bae6fd;">Memuat tanggal...</span>
+            </div>
         </div>
-        <span id="{{ $id }}-date" class="text-xs md:text-sm text-cyan-700 mt-2 rtc-date-active-digital">Memuat
-            tanggal...</span>
     </div>
 @elseif($style === 'dark')
-    <div class="rtc-clock-widget-dark flex flex-col items-center justify-center select-none" @if ($wireIgnore) wire:ignore @endif>
+    <div class="rtc-clock-widget-dark flex flex-col items-center justify-center select-none"
+        @if ($wireIgnore) wire:ignore @endif>
         <div
-            class="flex items-center gap-3 px-6 py-4 rounded-2xl shadow-lg bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-900 border border-blue-900 rtc-dark-card">
+            class="flex flex-row items-center gap-3 px-6 py-4 rounded-2xl shadow-lg bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-900 border border-blue-900 rtc-dark-card">
             <svg class="w-8 h-8 text-cyan-300 drop-shadow" fill="none" stroke="currentColor" stroke-width="2"
                 viewBox="0 0 24 24">
                 <rect x="2" y="2" width="20" height="20" rx="6" fill="#0ea5e9" fill-opacity="0.10" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2" />
             </svg>
-            <span id="{{ $id }}-time"
-                class="font-mono text-3xl md:text-4xl font-extrabold text-cyan-100 rtc-clock-active-dark glow-dark">00:00:00</span>
+            <div class="flex flex-col items-start justify-center ml-2">
+                <span id="{{ $id }}-time"
+                    class="font-mono text-3xl md:text-4xl font-extrabold text-cyan-100 rtc-clock-active-dark glow-dark">00:00:00</span>
+                <span id="{{ $id }}-date"
+                    class="text-xs md:text-sm text-cyan-200 mt-2 rtc-date-active-dark animate-pulse">Memuat
+                    tanggal...</span>
+            </div>
         </div>
-        <span id="{{ $id }}-date" class="text-xs md:text-sm text-cyan-200 mt-2 rtc-date-active-dark">Memuat
-            tanggal...</span>
     </div>
 @endif
 
@@ -164,7 +176,7 @@
         box-shadow: 0 8px 32px 0 rgba(59, 130, 246, 0.18), 0 1.5px 6px 0 rgba(59, 130, 246, 0.10);
         border-radius: 1.25rem;
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 60%, rgba(186, 230, 253, 0.35) 100%);
-        border: 1.5px solid rgba(59, 130, 246, 0.18);
+        border: 3.5px solid rgba(59, 130, 246, 0.28);
         backdrop-filter: blur(16px) saturate(160%);
         -webkit-backdrop-filter: blur(16px) saturate(160%);
         transition: box-shadow 0.3s, transform 0.2s;
@@ -350,11 +362,16 @@
     .rtc-clock-widget-minimal #{{ $id }}-time {
         color: #1e293b;
         font-weight: 700;
-        text-shadow: 0 1px 2px #fff;
+        font-family: 'Fira Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Droid Sans Mono', 'Courier New', monospace;
+        letter-spacing: 0.04em;
+        background: transparent;
+        text-shadow: none;
     }
 
     .rtc-clock-widget-minimal #{{ $id }}-date {
-        color: #64748b;
+        color: #2563eb;
         font-weight: 500;
+        letter-spacing: 0.02em;
+        background: transparent;
     }
 </style>

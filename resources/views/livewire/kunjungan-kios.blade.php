@@ -204,7 +204,7 @@
             <div class="space-y-6">
 
                 <!-- Widget Jam -->
-                <x-rtc-clock style="{{ $activeTheme === 'glass' ? 'glass' : 'minimal' }}" />
+                <x-rtc-clock style="{{ $activeTheme ? $activeTheme : 'minimal' }}" />
 
                 <!-- Statistik Hari Ini -->
                 <div
@@ -217,7 +217,7 @@
                 </div>
 
                 <!-- Widget Kalender -->
-                <x-calendar-widget style="{{ $activeTheme === 'glass' ? 'glass' : 'minimal' }}" />
+                <x-calendar-widget style="{{ $activeTheme ? $activeTheme : 'minimal' }}" />
 
                 <!-- Leaderboard -->
                 <div

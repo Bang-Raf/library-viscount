@@ -25,7 +25,12 @@
                             onchange="window.history.replaceState(null, '', '?preview={{ $theme->name }}')" />
                         <div>
                             <div class="font-semibold text-blue-700">{{ $theme->label }}</div>
-                            <div class="text-xs text-gray-500">{{ $theme->description }}</div>
+                            <div class="text-xs text-gray-500">{{ $theme->description }}
+                                @if (in_array($theme->name, ['dark', 'digital']))
+                                    <span class="block text-[11px] text-yellow-600 mt-1 font-semibold">(Masih dalam
+                                        pengembangan, saat ini hanya berefek pada widget jam & kalender)</span>
+                                @endif
+                            </div>
                         </div>
                         @if ($activeTheme == $theme->name)
                             <span class="ml-auto text-xs px-2 py-1 bg-blue-600 text-white rounded">Aktif</span>

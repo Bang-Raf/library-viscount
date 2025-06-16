@@ -45,6 +45,6 @@ class ManajemenTema extends Component
             ['value' => $this->selectedTheme]
         );
         $this->activeTheme = $this->selectedTheme;
-        session()->flash('success', 'Tema berhasil diubah!');
+        return redirect()->route('dashboard.theme')->with('success', 'Tema ' . $this->selectedTheme . ' berhasil diterapkan!');
     }
 }

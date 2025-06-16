@@ -69,6 +69,12 @@ class DatabaseSeeder extends Seeder
                 'kelas_jabatan' => 'Kepala Perpustakaan',
                 'status' => 'Aktif',
             ],
+            [
+                'id_pengunjung' => 'GURU007',
+                'nama_lengkap' => 'R. Abdullah Hammami, S.Kom',
+                'kelas_jabatan' => 'Guru Informatika',
+                'status' => 'Aktif',
+            ],
         ];
 
         foreach ($pengunjung as $data) {

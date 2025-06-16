@@ -104,22 +104,23 @@ Setelah menjalankan seeder, tersedia akun-akun berikut:
 ### Administrator
 
 -   **Username:** `admin`
--   **Password:** `admin123`
+-   **Password:** `MBSPleretJaya123`
 -   **Akses:** Semua fitur sistem
 
 ### Pustakawan
 
 -   **Username:** `pustakawan`
--   **Password:** `pustakawan123`
+-   **Password:** `PustakawanUtama123`
 -   **Akses:** Fitur operasional (tidak termasuk manajemen user)
 
 ### Data Sample Pengunjung
 
--   **NIS:** `2024001` - Ahmad Rizki Pratama (XII IPA 1)
--   **NIS:** `2024002` - Siti Nurhaliza (XI IPS 2)
--   **NIS:** `2024003` - Muhammad Fadlan (X MIPA 1)
--   **NIS:** `GURU001` - Dr. Hj. Fatimah, M.Pd (Guru Bahasa Indonesia)
--   **NIS:** `GURU002` - Ahmad Mukhlis, S.Pd (Guru Matematika)
+-   **NIS:** `2024001` - Novada Putra Qurani (VII B - SMP)
+-   **NIS:** `2024002` - Dewa Nuku Jaya (VII A - SMP)
+-   **NIS:** `GURU001` - Muh. Fathul Mubin, M.Pd (Plt. Direktur)
+-   **NIS:** `GURU002` - Kamiluddin, M.Pd (Wadir. Kesantrian)
+-   **NIS:** `GURU003` - Ariel Amarta, S.Sos (Kepala Perpustakaan)
+-   **NIS:** `GURU007` - R. Abdullah Hammami, S.Kom (Guru Informatika)
 
 ## 🎯 Fitur Sistem
 
@@ -431,3 +432,74 @@ flowchart TD
   E --> F[Tampilkan Pesan Sukses]
   F --> G[Reset Form]
 ```
+
+## 🖌️ Manajemen Tema (Theme Management)
+
+Fitur ini memungkinkan admin/pustakawan memilih tema tampilan aplikasi secara global melalui dashboard.
+
+-   **Menu:** Dashboard → Sidebar → Manajemen Tema
+-   **Teknologi:** Livewire (`ManajemenTema`), tabel `themes` & `settings`, helper `ThemeHelper`
+-   **Alur:**
+    1. Pilih tema pada halaman Manajemen Tema.
+    2. Klik Simpan Tema.
+    3. Halaman reload otomatis, tema langsung aktif di seluruh aplikasi.
+-   **Catatan:** Tema `dark` dan `digital` masih dalam tahap pengembangan, saat ini hanya memengaruhi widget jam & kalender.
+
+## 🧩 Widget & Komponen Kustom
+
+### RTC Clock (Widget Jam)
+
+-   Jam digital real-time, timezone Asia/Jakarta
+-   4 style: `glass` (glassmorphism), `minimal`, `digital`, `dark`
+-   Properti: `style`, `showSeconds`, `class`, `wireIgnore`
+-   Efek animasi pulse pada tanggal hari ini
+-   Digital & dark: icon jam di kiri, jam & tanggal vertikal
+-   Glass: border kaca tebal, efek blur, animasi halus
+
+### Calendar Widget (Widget Kalender)
+
+-   Kalender bulanan, highlight hari ini, hari pertama Senin
+-   4 style: `glass`, `minimal`, `digital`, `dark`
+-   Properti: `style`, `showHeader`, `highlightToday`, `class`
+-   Efek glassmorphism, digital, minimal, dark
+-   Keterangan hari ini & sudah lewat di footer
+
+## 🛠️ Helper & Utilitas
+
+### ThemeHelper
+
+-   Mendapatkan tema aktif dari database (tabel settings)
+-   Digunakan di layout dan komponen untuk konsistensi tampilan
+
+## 🧩 Komponen Livewire Utama
+
+-   **KunjunganKios:** Pencatatan kunjungan, leaderboard, statistik, pengumuman, peraturan
+-   **Dashboard:** Statistik, chart, top pengunjung, kunjungan 7 hari terakhir
+-   **ManajemenPengunjung:** CRUD pengunjung, import Excel
+-   **ManajemenKunjungan:** Riwayat kunjungan, filter, pencarian
+-   **ManajemenUser:** CRUD user (admin), validasi unik
+-   **ManajemenTema:** Pilih & simpan tema global
+-   **ManajemenPeraturan:** CRUD peraturan
+-   **ManajemenPengumuman:** CRUD pengumuman
+-   **LaporanRekapitulasi:** Export data, filter, rekap
+
+## 🌐 Routing & Endpoint Utama
+
+-   `/` : Mode kios (pencatatan kunjungan)
+-   `/tentang-developer` : Profil developer
+-   `/dashboard` : Dashboard utama (auth)
+-   `/dashboard/pengunjung` : Manajemen pengunjung
+-   `/dashboard/kunjungan` : Manajemen kunjungan
+-   `/dashboard/laporan` : Laporan & rekap
+-   `/dashboard/pengumuman` : Manajemen pengumuman
+-   `/dashboard/users` : Manajemen user (admin)
+-   `/dashboard/peraturan` : Manajemen peraturan
+-   `/dashboard/theme` : Manajemen tema
+
+## ⚠️ Catatan Pengembangan & Personalisasi
+
+-   Tema dark & digital hanya mengubah widget jam & kalender, layout utama masih mengikuti tema default
+-   Widget dan komponen dapat dikustomisasi style-nya via properti
+-   Gunakan Livewire untuk interaktivitas, hindari reload JS manual jika bisa redirect dari controller
+-   Struktur kode modular, mudah dikembangkan
+-   Branding developer dan halaman tentang developer sudah terintegrasi

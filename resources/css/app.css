@@ -1,0 +1,265 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === THEME: GLASS === */
+.theme-glass {
+    --bg-main: rgba(255, 255, 255, 0.55);
+    --text-main: #1e293b;
+    --primary: #2563eb;
+    --secondary: #64748b;
+    --card-bg: rgba(255, 255, 255, 0.7);
+    --card-border: rgba(59, 130, 246, 0.18);
+    --card-shadow: 0 8px 32px 0 rgba(59, 130, 246, 0.18),
+        0 1.5px 6px 0 rgba(59, 130, 246, 0.1);
+    --glass-blur: blur(16px);
+    --glass-radius: 1.25rem;
+    --glass-highlight: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0.35) 0%,
+        rgba(186, 230, 253, 0.18) 100%
+    );
+}
+
+.theme-glass {
+    background: var(--bg-main);
+    color: var(--text-main);
+}
+
+.theme-glass .card,
+.theme-glass .glass-card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--card-border);
+    box-shadow: var(--card-shadow);
+    border-radius: var(--glass-radius);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    overflow: hidden;
+}
+
+.theme-glass .glass-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    pointer-events: none;
+    background: var(--glass-highlight);
+    box-shadow: 0 1.5px 12px 0 rgba(59, 130, 246, 0.08) inset;
+    z-index: 0;
+}
+
+.theme-glass .sidebar,
+.theme-glass .sidebar-glass {
+    background: var(--card-bg);
+    border-right: 1.5px solid var(--card-border);
+    box-shadow: var(--card-shadow);
+    border-radius: 0 0 1.25rem 0;
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    position: relative;
+    z-index: 1;
+    transition: background 0.3s, border 0.3s;
+}
+
+.theme-glass .navbar-glass {
+    background: var(--card-bg);
+    border-bottom: 1.5px solid var(--card-border);
+    border-radius: 0 1.25rem 0 0;
+    box-shadow: var(--card-shadow);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    transition: background 0.3s, border 0.3s;
+    border-left: none !important;
+}
+
+.theme-glass .sidebar-active {
+    background: rgba(59, 130, 246, 0.12);
+    color: var(--primary) !important;
+    font-weight: 600;
+    border-left: 4px solid var(--primary);
+    box-shadow: 0 2px 8px 0 rgba(59, 130, 246, 0.08);
+}
+
+.theme-glass .glass-footer {
+    background: var(--card-bg);
+    border-top: 1.5px solid var(--card-border);
+    border-radius: 0 0 1.25rem 0;
+    box-shadow: var(--card-shadow);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    transition: background 0.3s, border 0.3s;
+    border-left: none !important;
+}
+
+/* === KIOS THEME: GLASS === */
+.theme-glass .kios-glass-bg {
+    background: linear-gradient(
+        120deg,
+        rgba(236, 245, 255, 0.7) 0%,
+        rgba(255, 255, 255, 0.7) 100%
+    );
+    min-height: 100vh;
+}
+.theme-glass .kios-glass-header {
+    background: rgba(255, 255, 255, 0.65);
+    border-bottom: 1.5px solid var(--card-border);
+    border-radius: 0 0 1.25rem 1.25rem;
+    box-shadow: 0 4px 24px 0 rgba(59, 130, 246, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+.theme-glass .kios-glass-card {
+    background: rgba(255, 255, 255, 0.82);
+    border: 1.5px solid var(--card-border);
+    border-radius: var(--glass-radius);
+    box-shadow: 0 4px 24px 0 rgba(59, 130, 246, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #1e293b;
+}
+.theme-glass .kios-glass-warning {
+    position: relative;
+    background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0.65) 60%,
+        rgba(186, 230, 253, 0.45) 100%,
+        rgba(59, 130, 246, 0.13) 100%
+    );
+    border: 2px solid rgba(59, 130, 246, 0.22);
+    box-shadow: 0 8px 32px 0 rgba(59, 130, 246, 0.18),
+        0 1.5px 6px 0 rgba(59, 130, 246, 0.1);
+    border-radius: 1.25rem;
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    overflow: hidden;
+    color: #7c4700;
+    padding: 2rem 1.5rem;
+}
+.theme-glass .kios-glass-warning::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0.38) 0%,
+        rgba(186, 230, 253, 0.22) 100%
+    );
+    box-shadow: 0 2px 24px 0 rgba(59, 130, 246, 0.1) inset,
+        0 0 0 1.5px rgba(59, 130, 246, 0.1) inset;
+    z-index: 0;
+}
+.theme-glass .kios-glass-warning::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 18px;
+    width: 90px;
+    height: 22px;
+    background: linear-gradient(
+        110deg,
+        rgba(255, 255, 255, 0.55) 0%,
+        rgba(255, 255, 255, 0.08) 100%
+    );
+    border-radius: 18px;
+    opacity: 0.8;
+    pointer-events: none;
+    filter: blur(2px);
+    z-index: 1;
+}
+.theme-glass .kios-glass-warning > * {
+    position: relative;
+    z-index: 2;
+}
+.theme-glass .kios-glass-warning h3,
+.theme-glass .kios-glass-warning .font-bold {
+    color: #b45309;
+}
+.theme-glass .kios-glass-warning ul {
+    color: #92400e;
+    font-size: 1rem;
+}
+
+/* === KIOS SHARED GLASS CARD === */
+.theme-glass .kios-glass-shared {
+    position: relative;
+    background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0.65) 60%,
+        rgba(186, 230, 253, 0.45) 100%,
+        rgba(59, 130, 246, 0.13) 100%
+    );
+    border: 2px solid rgba(59, 130, 246, 0.22);
+    box-shadow: 0 8px 32px 0 rgba(59, 130, 246, 0.18),
+        0 1.5px 6px 0 rgba(59, 130, 246, 0.1);
+    border-radius: 1.25rem;
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    overflow: hidden;
+    color: #0a2540;
+}
+.theme-glass .kios-glass-shared::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0.38) 0%,
+        rgba(186, 230, 253, 0.22) 100%
+    );
+    box-shadow: 0 2px 24px 0 rgba(59, 130, 246, 0.1) inset,
+        0 0 0 1.5px rgba(59, 130, 246, 0.1) inset;
+    z-index: 0;
+}
+.theme-glass .kios-glass-shared::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 18px;
+    width: 90px;
+    height: 22px;
+    background: linear-gradient(
+        110deg,
+        rgba(255, 255, 255, 0.55) 0%,
+        rgba(255, 255, 255, 0.08) 100%
+    );
+    border-radius: 18px;
+    opacity: 0.8;
+    pointer-events: none;
+    filter: blur(2px);
+    z-index: 1;
+}
+.theme-glass .kios-glass-shared > * {
+    position: relative;
+    z-index: 2;
+}
+
+.theme-glass .kios-glass-peraturan {
+    background: rgba(255, 255, 255, 0.82);
+    border: 1.5px solid var(--card-border);
+    border-radius: 1rem;
+    box-shadow: 0 4px 24px 0 rgba(59, 130, 246, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #1e293b;
+    padding: 1.5rem;
+}
+.theme-glass .kios-glass-peraturan .kios-peraturan-title {
+    color: var(--primary) !important;
+}
+.theme-glass .kios-glass-peraturan .kios-peraturan-list {
+    color: #1e293b !important;
+}

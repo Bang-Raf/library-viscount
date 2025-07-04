@@ -9,6 +9,8 @@ use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ManajemenPengunjung extends Component
 {
@@ -115,9 +117,32 @@ class ManajemenPengunjung extends Component
 
     public function hapus($id)
     {
-        $pengunjung = Pengunjung::findOrFail($id);
-        $pengunjung->delete();
-        session()->flash('message', '1 Data pengunjung berhasil dihapus!');
+        // Ensure only administrators can delete visitor records
+        if (!auth()->check() || auth()->user()->role !== 'administrator') {
+            session()->flash('error', 'Hanya administrator yang dapat menghapus data pengunjung!');
+            return;
+        }
+
+        try {
+            $pengunjung = Pengunjung::findOrFail($id);
+            
+            // Check if visitor has any visit history
+            $visitCount = $pengunjung->riwayatKunjungan()->count();
+            if ($visitCount > 0) {
+                session()->flash('error', 'Tidak dapat menghapus pengunjung yang memiliki riwayat kunjungan. Total kunjungan: ' . $visitCount);
+                return;
+            }
+            
+            $pengunjung->delete();
+            session()->flash('message', 'Data pengunjung berhasil dihapus!');
+        } catch (\Exception $e) {
+            Log::error('Failed to delete visitor', [
+                'visitor_id' => $id,
+                'user_id' => auth()->id(),
+                'error' => $e->getMessage()
+            ]);
+            session()->flash('error', 'Gagal menghapus data pengunjung. Silakan coba lagi.');
+        }
     }
 
     public function batalForm()
@@ -181,58 +206,101 @@ class ManajemenPengunjung extends Component
 
     public function import()
     {
+        // Ensure only administrators can import data
+        if (!auth()->check() || auth()->user()->role !== 'administrator') {
+            session()->flash('error', 'Hanya administrator yang dapat melakukan import data!');
+            return;
+        }
+
         $this->validate($this->importRules);
         $this->importedCount = 0;
         $this->failedRows = [];
 
         $path = $this->file->store('temp');
-        $rows = Excel::toCollection(null, storage_path('app/' . $path))->first();
-
-        if (!$rows || $rows->count() === 0) {
-            Storage::delete($path);
-            session()->flash('message', 'File tidak dapat dibaca atau kosong. Pastikan format dan isi file sudah benar.');
-            $this->resetImportForm();
-            return;
-        }
-
-        foreach ($rows as $index => $row) {
-            if ($index === 0 && (strtolower($row[0]) === 'id_pengunjung' || strtolower($row['id_pengunjung'] ?? '') === 'id_pengunjung')) {
-                continue;
+        
+        try {
+            // Security: Verify file size and content before processing
+            $fileSize = Storage::size($path);
+            if ($fileSize > 5 * 1024 * 1024) { // 5MB limit
+                throw new \Exception('File terlalu besar. Maksimal 5MB.');
             }
-            // Skip baris kosong
-            $id_pengunjung = $row['id_pengunjung'] ?? $row[0] ?? null;
-            $nama_lengkap = $row['nama_lengkap'] ?? $row[1] ?? null;
-            $kelas_jabatan = $row['kelas_jabatan'] ?? $row[2] ?? null;
-            $status = $row['status'] ?? $row[3] ?? 'Aktif';
-            if (empty($id_pengunjung) && empty($nama_lengkap) && empty($kelas_jabatan) && empty($status)) {
-                continue;
+
+            $rows = Excel::toCollection(null, storage_path('app/' . $path))->first();
+
+            if (!$rows || $rows->count() === 0) {
+                throw new \Exception('File tidak dapat dibaca atau kosong.');
             }
-            $data = [
-                'id_pengunjung' => $id_pengunjung,
-                'nama_lengkap' => $nama_lengkap,
-                'kelas_jabatan' => $kelas_jabatan,
-                'status' => $status,
-            ];
-            $validator = Validator::make($data, [
-                'id_pengunjung' => 'required|string|unique:pengunjung,id_pengunjung',
-                'nama_lengkap' => 'required|string|max:255',
-                'kelas_jabatan' => 'nullable|string|max:255',
-                'status' => 'required|in:Aktif,Lulus,Pindah,Nonaktif',
+
+            // Security: Limit number of rows to prevent memory exhaustion
+            if ($rows->count() > 1000) {
+                throw new \Exception('File terlalu besar. Maksimal 1000 baris data.');
+            }
+
+            // Use database transaction for data consistency
+            DB::transaction(function () use ($rows) {
+                foreach ($rows as $index => $row) {
+                    // Skip header row
+                    if ($index === 0 && (strtolower($row[0]) === 'id_pengunjung' || strtolower($row['id_pengunjung'] ?? '') === 'id_pengunjung')) {
+                        continue;
+                    }
+                    
+                    // Skip empty rows
+                    $id_pengunjung = trim($row['id_pengunjung'] ?? $row[0] ?? '');
+                    $nama_lengkap = trim($row['nama_lengkap'] ?? $row[1] ?? '');
+                    $kelas_jabatan = trim($row['kelas_jabatan'] ?? $row[2] ?? '');
+                    $status = trim($row['status'] ?? $row[3] ?? 'Aktif');
+                    
+                    if (empty($id_pengunjung) && empty($nama_lengkap)) {
+                        continue;
+                    }
+                    
+                    // Security: Sanitize and validate input data
+                    $data = [
+                        'id_pengunjung' => substr($id_pengunjung, 0, 255), // Limit length
+                        'nama_lengkap' => substr($nama_lengkap, 0, 255),
+                        'kelas_jabatan' => $kelas_jabatan ? substr($kelas_jabatan, 0, 255) : null,
+                        'status' => in_array($status, ['Aktif', 'Lulus', 'Pindah', 'Nonaktif']) ? $status : 'Aktif',
+                    ];
+                    
+                    $validator = Validator::make($data, [
+                        'id_pengunjung' => 'required|string|max:255|unique:pengunjung,id_pengunjung',
+                        'nama_lengkap' => 'required|string|max:255',
+                        'kelas_jabatan' => 'nullable|string|max:255',
+                        'status' => 'required|in:Aktif,Lulus,Pindah,Nonaktif',
+                    ]);
+                    
+                    if ($validator->fails()) {
+                        $this->failedRows[] = [
+                            'row' => $index + 1,
+                            'data' => $data,
+                            'errors' => $validator->errors()->all(),
+                        ];
+                        continue;
+                    }
+                    
+                    Pengunjung::create($data);
+                    $this->importedCount++;
+                }
+            });
+            
+        } catch (\Exception $e) {
+            Log::error('Import failed', [
+                'user_id' => auth()->id(),
+                'file_path' => $path,
+                'error' => $e->getMessage()
             ]);
-            if ($validator->fails()) {
-                $this->failedRows[] = [
-                    'row' => $index + 1,
-                    'data' => $data,
-                    'errors' => $validator->errors()->all(),
-                ];
-                continue;
-            }
-            Pengunjung::create($data);
-            $this->importedCount++;
+            session()->flash('error', 'Import gagal: ' . $e->getMessage());
+        } finally {
+            // Always clean up temporary file
+            Storage::delete($path);
         }
-        Storage::delete($path);
+        
         $this->showImportBatchModal = false;
-        session()->flash('message', "Import selesai. Berhasil: {$this->importedCount}, Gagal: " . count($this->failedRows));
+        
+        if ($this->importedCount > 0 || count($this->failedRows) > 0) {
+            session()->flash('message', "Import selesai. Berhasil: {$this->importedCount}, Gagal: " . count($this->failedRows));
+        }
+        
         $this->resetImportForm();
     }
 

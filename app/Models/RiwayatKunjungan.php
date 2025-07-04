@@ -58,14 +58,14 @@ class RiwayatKunjungan extends Model
         if ($currentMonth >= 7) {
             // Semester ganjil (Juli-Desember)
             return $query->whereBetween('waktu_masuk', [
-                now()->startOfYear()->addMonths(6),
-                now()->endOfYear()
+                now()->startOfYear()->addMonths(6)->startOfMonth(),
+                now()->endOfYear()->endOfDay()
             ]);
         } else {
             // Semester genap (Januari-Juni)
             return $query->whereBetween('waktu_masuk', [
-                now()->startOfYear(),
-                now()->startOfYear()->addMonths(5)->endOfMonth()
+                now()->startOfYear()->startOfDay(),
+                now()->startOfYear()->addMonths(5)->endOfMonth()->endOfDay()
             ]);
         }
     }

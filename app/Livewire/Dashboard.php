@@ -19,20 +19,39 @@ class Dashboard extends Component
 
     public function render()
     {
-        // Statistik Umum
+        // Cache current time calculations to avoid repeated calls
+        $now = Carbon::now();
+        $today = $now->copy()->startOfDay();
+        $startOfWeek = $now->copy()->startOfWeek();
+        $endOfWeek = $now->copy()->endOfWeek();
+        $startOfMonth = $now->copy()->startOfMonth();
+        $endOfMonth = $now->copy()->endOfMonth();
+
+        // Statistik Umum - Optimize with single queries where possible
         $totalPengunjung = Pengunjung::where('status', 'Aktif')->count();
-        $totalKunjunganHariIni = RiwayatKunjungan::hariIni()->count();
-        $totalKunjunganBulanIni = RiwayatKunjungan::bulanIni()->count();
         $totalUsers = User::count();
+        
+        // Optimize visit statistics with fewer queries
+        $visitStats = RiwayatKunjungan::selectRaw('
+            COUNT(CASE WHEN DATE(waktu_masuk) = ? THEN 1 END) as hari_ini,
+            COUNT(CASE WHEN waktu_masuk >= ? AND waktu_masuk <= ? THEN 1 END) as minggu_ini,
+            COUNT(CASE WHEN waktu_masuk >= ? AND waktu_masuk <= ? THEN 1 END) as bulan_ini
+        ', [
+            $today->format('Y-m-d'),
+            $startOfWeek->format('Y-m-d H:i:s'),
+            $endOfWeek->format('Y-m-d H:i:s'),
+            $startOfMonth->format('Y-m-d H:i:s'),
+            $endOfMonth->format('Y-m-d H:i:s')
+        ])->first();
 
-        // Statistik Kunjungan Minggu Ini
-        $kunjunganMingguIni = RiwayatKunjungan::whereBetween('waktu_masuk', [
-            Carbon::now()->startOfWeek(),
-            Carbon::now()->endOfWeek()
-        ])->count();
+        $totalKunjunganHariIni = $visitStats->hari_ini;
+        $kunjunganMingguIni = $visitStats->minggu_ini;
+        $totalKunjunganBulanIni = $visitStats->bulan_ini;
 
-        // Top 5 Pengunjung Aktif
-        $topPengunjung = RiwayatKunjungan::with('pengunjung')
+        // Top 5 Pengunjung Aktif - Add index hint for better performance
+        $topPengunjung = RiwayatKunjungan::with(['pengunjung' => function($query) {
+                $query->select('id', 'nama_lengkap', 'id_pengunjung');
+            }])
             ->selectRaw('pengunjung_id, COUNT(*) as total_kunjungan')
             ->groupBy('pengunjung_id')
             ->orderByDesc('total_kunjungan')

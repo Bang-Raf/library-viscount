@@ -9,6 +9,8 @@ use App\Models\Peraturan;
 use App\Models\Setting;
 use Livewire\Component;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class KunjunganKios extends Component
 {
@@ -80,11 +82,24 @@ class KunjunganKios extends Component
         }
 
         try {
-            RiwayatKunjungan::create([
-                'pengunjung_id' => $this->pengunjung->id,
-                'waktu_masuk' => Carbon::now('Asia/Jakarta'),
-                'keperluan' => $this->keperluan,
-            ]);
+            // Use database transaction with locking to prevent race condition
+            DB::transaction(function () {
+                // Check again within transaction to prevent race condition
+                $existingVisit = RiwayatKunjungan::where('pengunjung_id', $this->pengunjung->id)
+                                                ->whereDate('waktu_masuk', today())
+                                                ->lockForUpdate()
+                                                ->first();
+
+                if ($existingVisit) {
+                    throw new \Exception('Pengunjung sudah tercatat hari ini. Silakan refresh halaman.');
+                }
+
+                RiwayatKunjungan::create([
+                    'pengunjung_id' => $this->pengunjung->id,
+                    'waktu_masuk' => Carbon::now('Asia/Jakarta'),
+                    'keperluan' => $this->keperluan,
+                ]);
+            });
 
             $this->message = 'Selamat datang ' . $this->pengunjung->nama_lengkap . '! Kunjungan berhasil dicatat.';
             $this->messageType = 'success';
@@ -95,7 +110,12 @@ class KunjunganKios extends Component
             $this->js('setTimeout(() => { $wire.call("clearMessage") }, 3000);');
             
         } catch (\Exception $e) {
-            $this->message = 'Terjadi kesalahan: ' . $e->getMessage();
+            // Don't expose internal error details
+            Log::error('Visit recording failed', [
+                'pengunjung_id' => $this->pengunjung->id ?? null,
+                'error' => $e->getMessage()
+            ]);
+            $this->message = 'Terjadi kesalahan saat mencatat kunjungan. Silakan coba lagi.';
             $this->messageType = 'error';
         }
     }

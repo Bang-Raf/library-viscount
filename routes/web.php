@@ -42,18 +42,7 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
         return view('dashboard.users');
     })->name('dashboard.users');
     
-    // Debug route - simple version
-    Route::get('/debug-user', function () {
-        $user = auth()->user();
-        
-        return [
-            'logged_in' => auth()->check(),
-            'user_id' => $user ? $user->id : null,
-            'username' => $user ? $user->username : null,
-            'role' => $user ? $user->role : null,
-            'is_admin' => $user ? ($user->role === 'administrator') : false,
-        ];
-    });
+
 
     Route::get('/peraturan', function () {
         return view('dashboard.peraturan');

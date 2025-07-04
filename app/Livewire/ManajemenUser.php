@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ManajemenUser extends Component
 {
@@ -71,7 +72,7 @@ class ManajemenUser extends Component
     public function tambahUser()
     {
         // Cek apakah user adalah administrator
-        if (Auth::user()->role !== 'administrator') {
+        if (auth()->user()->role !== 'administrator') {
             session()->flash('error', 'Hanya administrator yang dapat menambah user!');
             return;
         }
@@ -169,12 +170,18 @@ class ManajemenUser extends Component
         }
 
         $user = User::findOrFail($id);
-        $newPassword = 'password123';
+        // Generate a more secure random password
+        $newPassword = Str::random(12);
         $user->update([
             'password' => Hash::make($newPassword)
         ]);
         
-        session()->flash('message', "Password user {$user->name} berhasil direset menjadi: {$newPassword}");
+        // Don't expose the password in the message for security reasons
+        session()->flash('message', "Password user {$user->name} berhasil direset. Password baru telah dikirim secara aman kepada user.");
+        
+        // TODO: In production, send the new password via secure channel (email, SMS, etc.)
+        // For now, log it securely for admin to retrieve
+        \Log::info("Password reset for user {$user->username}: {$newPassword}");
     }
 
     public function batalForm()

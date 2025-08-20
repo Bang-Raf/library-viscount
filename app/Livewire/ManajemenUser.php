@@ -37,11 +37,28 @@ class ManajemenUser extends Component
         ];
 
         if (!$this->editMode) {
-            $rules['password'] = 'required|string|min:6|confirmed';
+            // Stronger password policy
+            $rules['password'] = [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/[A-Z]/',
+                'regex:/[a-z]/',
+                'regex:/[0-9]/',
+            ];
         } else {
             $rules['username'] = 'required|string|max:255|unique:users,username,' . $this->userId;
             $rules['email'] = 'nullable|email|unique:users,email,' . $this->userId;
-            $rules['password'] = 'nullable|string|min:6|confirmed';
+            $rules['password'] = [
+                'nullable',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/[A-Z]/',
+                'regex:/[a-z]/',
+                'regex:/[0-9]/',
+            ];
         }
 
         return $rules;
@@ -175,6 +192,19 @@ class ManajemenUser extends Component
         $user->update([
             'password' => Hash::make($newPassword)
         ]);
+
+        // Invalidate other sessions and remember tokens
+        if (method_exists($user, 'setRememberToken')) {
+            $user->setRememberToken(Str::random(60));
+            $user->save();
+        }
+
+        // Delete other active sessions for this user
+        if (config('session.driver') === 'database') {
+            \DB::table(config('session.table', 'sessions'))
+                ->where('user_id', $user->id)
+                ->delete();
+        }
 
         // Show the temporary password once to the administrator without storing it in logs
         session()->flash('message', "Password user {$user->name} berhasil direset. Password sementara: {$newPassword}. Minta pengguna untuk mengganti password setelah login.");

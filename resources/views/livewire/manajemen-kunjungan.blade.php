@@ -15,7 +15,7 @@
     <!-- Statistics Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div
-            class="{{ $activeTheme === 'glass' ? 'glass-card' : 'bg-white border border-gray-200 shadow rounded-xl' }} p-6 border-l-4 border-blue-500">
+            class="card p-6 border-l-4 border-blue-500 {{ $activeTheme === 'glass' ? 'glass-card' : '' }}">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
                     <div
@@ -36,7 +36,7 @@
         </div>
 
         <div
-            class="{{ $activeTheme === 'glass' ? 'glass-card' : 'bg-white border border-gray-200 shadow rounded-xl' }} p-6 border-l-4 border-green-500">
+            class="card p-6 border-l-4 border-green-500 {{ $activeTheme === 'glass' ? 'glass-card' : '' }}">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
                     <div
@@ -56,7 +56,7 @@
         </div>
 
         <div
-            class="{{ $activeTheme === 'glass' ? 'glass-card' : 'bg-white border border-gray-200 shadow rounded-xl' }} p-6 border-l-4 border-purple-500">
+            class="card p-6 border-l-4 border-purple-500 {{ $activeTheme === 'glass' ? 'glass-card' : '' }}">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
                     <div
@@ -78,7 +78,7 @@
     </div>
 
     <!-- Main Content -->
-    <div class="{{ $activeTheme === 'glass' ? 'glass-card' : 'bg-white border border-gray-200 shadow rounded-xl' }}">
+    <div class="card {{ $activeTheme === 'glass' ? 'glass-card' : '' }}">
         <!-- Header -->
         <div class="px-6 py-4 border-b border-gray-200">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">

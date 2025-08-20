@@ -6,7 +6,7 @@
 <div class="flex flex-col md:flex-row gap-8">
     <!-- Kiri: Form Pilihan Tema -->
     <div
-        class="w-full md:w-1/2 max-w-xl {{ $activeTheme === 'glass' ? 'glass-card' : 'bg-white border border-gray-200 shadow rounded-xl' }} p-6">
+        class="w-full md:w-1/2 max-w-xl card p-6 {{ $activeTheme === 'glass' ? 'glass-card' : '' }}">
         <h2 class="text-2xl font-bold mb-2 text-blue-700">Manajemen Tema</h2>
         <p class="text-gray-600 mb-6">Pilih tema tampilan utama aplikasi. Perubahan tema akan diterapkan secara global.
         </p>

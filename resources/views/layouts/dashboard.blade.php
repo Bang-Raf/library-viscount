@@ -25,7 +25,7 @@
         <div class="flex flex-1">
             <!-- Sidebar -->
             <div
-                class="w-64 flex flex-col min-h-full flex-shrink-0 {{ $activeTheme === 'glass' ? 'sidebar-glass sidebar' : 'bg-white shadow-lg' }}">
+                class="w-64 flex flex-col min-h-full flex-shrink-0 sidebar {{ $activeTheme === 'glass' ? 'sidebar-glass' : '' }}">
                 <div class="flex flex-col h-full">
                     <!-- Logo -->
                     <div class="flex items-center justify-center h-16 bg-blue-600 text-white">
@@ -173,7 +173,7 @@
             <div class="flex-1 flex flex-col overflow-hidden">
                 <!-- Top Header -->
                 <header
-                    class="{{ $activeTheme === 'glass' ? 'navbar-glass' : 'bg-white shadow-sm border-b border-gray-200' }}">
+                    class="navbar {{ $activeTheme === 'glass' ? 'navbar-glass' : '' }} {{ $activeTheme !== 'glass' ? 'bg-white shadow-sm border-b border-gray-200' : '' }}">
                     <div class="px-6 py-4">
                         <div class="flex items-center justify-between">
                             <div>

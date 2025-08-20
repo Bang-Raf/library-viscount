@@ -25,7 +25,7 @@
             (function_exists('theme_active') ? theme_active() : \App\Helpers\ThemeHelper::getActiveTheme() ?? 'glass');
     @endphp
     <div
-        class="{{ $activeTheme === 'glass' ? 'glass-card' : 'bg-white border border-gray-200 shadow rounded-xl' }} p-6 mb-8">
+        class="card p-6 mb-8 {{ $activeTheme === 'glass' ? 'glass-card' : '' }}">
         <h3 class="text-lg font-semibold text-gray-800 mb-4">Konfigurasi Export</h3>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -117,12 +117,12 @@
     <!-- Preview Statistics -->
     @if ($jenisLaporan === 'kunjungan' && !empty($statistik))
         <div
-            class="{{ $activeTheme === 'glass' ? 'glass-card' : 'bg-white border border-gray-200 shadow rounded-xl' }} p-6">
+            class="card p-6 {{ $activeTheme === 'glass' ? 'glass-card' : '' }}">
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Preview Statistik</h3>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div
-                    class="{{ $activeTheme === 'glass' ? 'glass-card' : 'bg-blue-50 border border-blue-100' }} rounded-lg p-4">
+                    class="rounded-lg p-4 {{ $activeTheme === 'glass' ? 'glass-card' : 'bg-blue-50 border border-blue-100' }}">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
                             <div
@@ -143,7 +143,7 @@
                 </div>
 
                 <div
-                    class="{{ $activeTheme === 'glass' ? 'glass-card' : 'bg-green-50 border border-green-100' }} rounded-lg p-4">
+                    class="rounded-lg p-4 {{ $activeTheme === 'glass' ? 'glass-card' : 'bg-green-50 border border-green-100' }}">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
                             <div
@@ -164,7 +164,7 @@
                 </div>
 
                 <div
-                    class="{{ $activeTheme === 'glass' ? 'glass-card' : 'bg-purple-50 border border-purple-100' }} rounded-lg p-4">
+                    class="rounded-lg p-4 {{ $activeTheme === 'glass' ? 'glass-card' : 'bg-purple-50 border border-purple-100' }}">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
                             <div
@@ -199,7 +199,7 @@
 
     @if ($jenisLaporan === 'pengunjung')
         <div
-            class="{{ $activeTheme === 'glass' ? 'glass-card' : 'bg-white border border-gray-200 shadow rounded-xl' }} p-6">
+            class="card p-6 {{ $activeTheme === 'glass' ? 'glass-card' : '' }}">
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Informasi Laporan Pengunjung</h3>
 
             <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">

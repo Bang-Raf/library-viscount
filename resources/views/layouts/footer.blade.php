@@ -4,7 +4,7 @@
 @endphp
 {{-- Footer --}}
 <footer
-    class="w-full text-center py-4 text-sm transition
+    class="w-full text-center py-4 text-sm transition footer-bar
     {{ $activeTheme === 'glass'
         ? 'glass-footer text-blue-900 bg-white/60 border-t border-blue-100/60 rounded-br-[1.25rem] shadow-sm backdrop-blur-md'
         : 'text-blue-800 bg-blue-50/60' }}"

@@ -25,7 +25,7 @@ Route::middleware('guest')->group(function () {
         throw ValidationException::withMessages([
             'username' => trans('auth.failed'),
         ]);
-    })->name('login.store');
+    })->middleware('throttle:login')->name('login.store');
 });
 
 // Logout route

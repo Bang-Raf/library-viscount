@@ -170,18 +170,14 @@ class ManajemenUser extends Component
         }
 
         $user = User::findOrFail($id);
-        // Generate a more secure random password
+        // Generate a secure random temporary password
         $newPassword = Str::random(12);
         $user->update([
             'password' => Hash::make($newPassword)
         ]);
-        
-        // Don't expose the password in the message for security reasons
-        session()->flash('message', "Password user {$user->name} berhasil direset. Password baru telah dikirim secara aman kepada user.");
-        
-        // TODO: In production, send the new password via secure channel (email, SMS, etc.)
-        // For now, log it securely for admin to retrieve
-        \Log::info("Password reset for user {$user->username}: {$newPassword}");
+
+        // Show the temporary password once to the administrator without storing it in logs
+        session()->flash('message', "Password user {$user->name} berhasil direset. Password sementara: {$newPassword}. Minta pengguna untuk mengganti password setelah login.");
     }
 
     public function batalForm()
